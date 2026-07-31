@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes">
+<title>Kütüphane</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="deco-strip"></div>
+<div class="topbar">
+  <div class="title">📚 Kütüphane</div>
+  <button class="icon-btn" id="btnSettings2">⚙️</button>
+</div>
+
+<div class="theme-picker">
+  <div class="theme-dot tg" data-theme="gunduz" title="Gündüz"></div>
+  <div class="theme-dot tk" data-theme="kagit" title="Kağıt"></div>
+  <div class="theme-dot tn" data-theme="gece" title="Gece"></div>
+  <div class="theme-dot ty" data-theme="yumusak" title="Yumuşak Koyu"></div>
+</div>
+
+<div class="cat-tabs" id="catTabs"></div>
+<div class="book-list" id="bookList"></div>
+
+<script src="app.js"></script>
+<script>
+initTheme(); wireThemePicker();
+
+/*
+  ============================================================
+  BURASI SENİN DÜZENLEYECEĞİN TEK YER.
+  Her kategori bir sekme, her kategori altında kitaplar var.
+  "src" alanına kitabın GitHub'daki RAW linkini yapıştır, örn:
+  "https://raw.githubusercontent.com/kullanici/repo/main/kuran/kissalar.txt"
+
+  Gerçek bir link yoksa "demo" yazarsan örnek kitabı açar.
+  ============================================================
+*/
+const KUTUPHANE = {
+  "Kur'an": [
+    { title: "Kur'an Kıssalarına Giriş (örnek)", src: "demo" },
+    { title: "Kur'an İlimleri", src: "demo" }
+  ],
+  "Hadis": [
+    { title: "Örnek Hadis Kitabı", src: "demo" }
+  ],
+  "Akaid": [
+    { title: "Örnek Akaid Kitabı", src: "demo" }
+  ],
+  "Fıkıh": [
+    { title: "Örnek Fıkıh Kitabı", src: "demo" }
+  ]
+};
+
+const catTabs = document.getElementById('catTabs');
+const bookList = document.getElementById('bookList');
+const categories = Object.keys(KUTUPHANE);
+
+function renderCategory(cat) {
+  bookList.innerHTML = '';
+  KUTUPHANE[cat].forEach(book => {
+    const a = document.createElement('a');
+    a.className = 'book-link';
+    a.href = `book.html?src=${encodeURIComponent(book.src)}&title=${encodeURIComponent(book.title)}`;
+    a.textContent = book.title;
+    bookList.appendChild(a);
+  });
+}
+
+categories.forEach((cat, i) => {
+  const btn = document.createElement('div');
+  btn.className = 'cat-tab' + (i === 0 ? ' active' : '');
+  btn.textContent = cat;
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderCategory(cat);
+  });
+  catTabs.appendChild(btn);
+});
+renderCategory(categories[0]);
+</script>
+</body>
+</html>
