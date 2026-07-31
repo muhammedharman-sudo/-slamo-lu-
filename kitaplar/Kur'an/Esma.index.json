@@ -1,0 +1,801 @@
+{
+  "headings": [
+    {
+      "line": 106,
+      "level": 1,
+      "title": "53- EL-VEKİL",
+      "guessed": true
+    },
+    {
+      "line": 108,
+      "level": 1,
+      "title": "54- EL-KAVİ",
+      "guessed": true
+    },
+    {
+      "line": 110,
+      "level": 1,
+      "title": "55- EL-METİN",
+      "guessed": true
+    },
+    {
+      "line": 112,
+      "level": 1,
+      "title": "56- EL-VELİ",
+      "guessed": true
+    },
+    {
+      "line": 114,
+      "level": 1,
+      "title": "57- EL-HAMİD",
+      "guessed": true
+    },
+    {
+      "line": 116,
+      "level": 1,
+      "title": "58- EL-MUHSİ",
+      "guessed": true
+    },
+    {
+      "line": 118,
+      "level": 1,
+      "title": "59- EL-MÜBDİ, 60- EL-MUİD",
+      "guessed": true
+    },
+    {
+      "line": 120,
+      "level": 1,
+      "title": "61- EL-MUHYİ, 62- EL-MÜMİT",
+      "guessed": true
+    },
+    {
+      "line": 122,
+      "level": 1,
+      "title": "63- EL-HAY",
+      "guessed": true
+    },
+    {
+      "line": 124,
+      "level": 1,
+      "title": "64- EL-KAYYUM",
+      "guessed": true
+    },
+    {
+      "line": 126,
+      "level": 1,
+      "title": "65- EL-VACİD",
+      "guessed": true
+    },
+    {
+      "line": 128,
+      "level": 1,
+      "title": "66- EL-MACİD",
+      "guessed": true
+    },
+    {
+      "line": 130,
+      "level": 1,
+      "title": "67- EL-VAHİD",
+      "guessed": true
+    },
+    {
+      "line": 132,
+      "level": 1,
+      "title": "68- ES-SAMED",
+      "guessed": true
+    },
+    {
+      "line": 134,
+      "level": 1,
+      "title": "69- EL-KADİR",
+      "guessed": true
+    },
+    {
+      "line": 136,
+      "level": 1,
+      "title": "70- EL-MUKTEDİR",
+      "guessed": true
+    },
+    {
+      "line": 138,
+      "level": 1,
+      "title": "71-EL-MUKADDİM, 72- EL-MÜAHHİR",
+      "guessed": true
+    },
+    {
+      "line": 140,
+      "level": 1,
+      "title": "73- EL-EVVEL, 74- EL-AHİR",
+      "guessed": true
+    },
+    {
+      "line": 142,
+      "level": 1,
+      "title": "75- EZ-ZAHİR, 76- EL-BATIN",
+      "guessed": true
+    },
+    {
+      "line": 144,
+      "level": 1,
+      "title": "77- EL-VALİ",
+      "guessed": true
+    },
+    {
+      "line": 146,
+      "level": 1,
+      "title": "78- EL-MÜTEALİ",
+      "guessed": true
+    },
+    {
+      "line": 148,
+      "level": 1,
+      "title": "79- EL-BERR",
+      "guessed": true
+    },
+    {
+      "line": 152,
+      "level": 1,
+      "title": "81-EL-MÜNTAKIM",
+      "guessed": true
+    },
+    {
+      "line": 156,
+      "level": 1,
+      "title": "83- ER-RAUF",
+      "guessed": true
+    },
+    {
+      "line": 160,
+      "level": 1,
+      "title": "85- ZÜ-L-CELALİ VE-L-İKRAM",
+      "guessed": true
+    },
+    {
+      "line": 162,
+      "level": 1,
+      "title": "86- EL-MUKSİT",
+      "guessed": true
+    },
+    {
+      "line": 164,
+      "level": 1,
+      "title": "87- EL-CAMİ",
+      "guessed": true
+    },
+    {
+      "line": 186,
+      "level": 2,
+      "title": "Sonuç",
+      "guessed": true
+    },
+    {
+      "line": 188,
+      "level": 2,
+      "title": "El-Esma-ül Hüsna'nın Özet Manaları",
+      "guessed": true
+    },
+    {
+      "line": 231,
+      "level": 2,
+      "title": "EL-ESMÂ-ÜL-HüSNÂ",
+      "guessed": true
+    },
+    {
+      "line": 258,
+      "level": 2,
+      "title": "El- Esma-ul Husna Hadisi",
+      "guessed": true
+    },
+    {
+      "line": 279,
+      "level": 2,
+      "title": "Peki iman etmeyen bir insan, ezberlese ve saysa cennete girer mi?",
+      "guessed": true
+    },
+    {
+      "line": 381,
+      "level": 1,
+      "title": "İSMİ A'ZAM",
+      "guessed": true
+    },
+    {
+      "line": 482,
+      "level": 1,
+      "title": "4- EL-MELİK",
+      "guessed": true
+    },
+    {
+      "line": 497,
+      "level": 1,
+      "title": "5- EL-KUDDÜS",
+      "guessed": true
+    },
+    {
+      "line": 514,
+      "level": 1,
+      "title": "6- EL-SELÂM",
+      "guessed": true
+    },
+    {
+      "line": 533,
+      "level": 1,
+      "title": "7- EL-MÜ’MİN",
+      "guessed": true
+    },
+    {
+      "line": 558,
+      "level": 1,
+      "title": "8- EL-MÜHEYMİN",
+      "guessed": true
+    },
+    {
+      "line": 577,
+      "level": 2,
+      "title": "Sahifei amelim ma'siyet hattıyla kara”",
+      "guessed": true
+    },
+    {
+      "line": 583,
+      "level": 1,
+      "title": "9- EL-AZİZ",
+      "guessed": true
+    },
+    {
+      "line": 604,
+      "level": 1,
+      "title": "10- EL-CEBBAR",
+      "guessed": true
+    },
+    {
+      "line": 623,
+      "level": 1,
+      "title": "11- EL-MÜTEKEBBİR",
+      "guessed": true
+    },
+    {
+      "line": 638,
+      "level": 1,
+      "title": "12- EL-HALİK",
+      "guessed": true
+    },
+    {
+      "line": 651,
+      "level": 1,
+      "title": "13- EL-BARİ",
+      "guessed": true
+    },
+    {
+      "line": 660,
+      "level": 1,
+      "title": "14- EL-MUSAVVİR",
+      "guessed": true
+    },
+    {
+      "line": 677,
+      "level": 1,
+      "title": "15- EL-ĞAFFÂR",
+      "guessed": true
+    },
+    {
+      "line": 702,
+      "level": 1,
+      "title": "16- EL-KAHHAR",
+      "guessed": true
+    },
+    {
+      "line": 721,
+      "level": 1,
+      "title": "17- EL-VEHHAB",
+      "guessed": true
+    },
+    {
+      "line": 738,
+      "level": 1,
+      "title": "18- ER-RAZZAK",
+      "guessed": true
+    },
+    {
+      "line": 789,
+      "level": 1,
+      "title": "19- EI-FETTAH",
+      "guessed": true
+    },
+    {
+      "line": 808,
+      "level": 1,
+      "title": "20- EL-ALİM",
+      "guessed": true
+    },
+    {
+      "line": 821,
+      "level": 2,
+      "title": "Dayandı göklere, lâkin yetişmiyor hâlâ",
+      "guessed": true
+    },
+    {
+      "line": 823,
+      "level": 2,
+      "title": "Bülend nüsha'i icadın ilk sahifesine",
+      "guessed": true
+    },
+    {
+      "line": 837,
+      "level": 1,
+      "title": "21- EL-KABİD, 22- EL-BASİT",
+      "guessed": true
+    },
+    {
+      "line": 852,
+      "level": 1,
+      "title": "23- EL-HAFİD, 24- ER-RAFİ'",
+      "guessed": true
+    },
+    {
+      "line": 873,
+      "level": 1,
+      "title": "25- EL-MUİZZU, 26- EL-MÜZİLLÜ",
+      "guessed": true
+    },
+    {
+      "line": 896,
+      "level": 1,
+      "title": "27- ES-SEMİ'",
+      "guessed": true
+    },
+    {
+      "line": 913,
+      "level": 1,
+      "title": "28- EL-BASİR",
+      "guessed": true
+    },
+    {
+      "line": 932,
+      "level": 1,
+      "title": "29- EL-HAKEM",
+      "guessed": true
+    },
+    {
+      "line": 959,
+      "level": 1,
+      "title": "30- EL-ADL",
+      "guessed": true
+    },
+    {
+      "line": 982,
+      "level": 1,
+      "title": "31- EL-LATİF",
+      "guessed": true
+    },
+    {
+      "line": 995,
+      "level": 1,
+      "title": "32- EL-HABİR",
+      "guessed": true
+    },
+    {
+      "line": 1008,
+      "level": 1,
+      "title": "33- EL-HALİM",
+      "guessed": true
+    },
+    {
+      "line": 1039,
+      "level": 1,
+      "title": "34- EL-AZİM",
+      "guessed": true
+    },
+    {
+      "line": 1054,
+      "level": 1,
+      "title": "35- EL-ĞAFUR",
+      "guessed": true
+    },
+    {
+      "line": 1065,
+      "level": 1,
+      "title": "36- EŞ-ŞEKÛR",
+      "guessed": true
+    },
+    {
+      "line": 1076,
+      "level": 2,
+      "title": "Hata bizden Ata (bağış) Ondan",
+      "guessed": true
+    },
+    {
+      "line": 1088,
+      "level": 1,
+      "title": "37- EL-ALİYYÜ",
+      "guessed": true
+    },
+    {
+      "line": 1119,
+      "level": 1,
+      "title": "38- EL-KEBİR",
+      "guessed": true
+    },
+    {
+      "line": 1134,
+      "level": 1,
+      "title": "39- EL-HAFİZ",
+      "guessed": true
+    },
+    {
+      "line": 1151,
+      "level": 1,
+      "title": "40- EL-MUKİT",
+      "guessed": true
+    },
+    {
+      "line": 1176,
+      "level": 1,
+      "title": "41- EL-HASİB",
+      "guessed": true
+    },
+    {
+      "line": 1195,
+      "level": 1,
+      "title": "42- EL-CELİL",
+      "guessed": true
+    },
+    {
+      "line": 1206,
+      "level": 1,
+      "title": "43- EL-KERİM",
+      "guessed": true
+    },
+    {
+      "line": 1227,
+      "level": 1,
+      "title": "44- ER-RAKİB",
+      "guessed": true
+    },
+    {
+      "line": 1242,
+      "level": 1,
+      "title": "45- EL-MUCİB",
+      "guessed": true
+    },
+    {
+      "line": 1259,
+      "level": 1,
+      "title": "46- EL-VASİ",
+      "guessed": true
+    },
+    {
+      "line": 1274,
+      "level": 1,
+      "title": "47- EL-HAKİM",
+      "guessed": true
+    },
+    {
+      "line": 1293,
+      "level": 1,
+      "title": "48- EL-VEDÜD",
+      "guessed": true
+    },
+    {
+      "line": 1312,
+      "level": 1,
+      "title": "49- EL-MECÎD",
+      "guessed": true
+    },
+    {
+      "line": 1329,
+      "level": 1,
+      "title": "50- EL-BAİS",
+      "guessed": true
+    },
+    {
+      "line": 1380,
+      "level": 1,
+      "title": "51- EŞ-ŞEHİD",
+      "guessed": true
+    },
+    {
+      "line": 1393,
+      "level": 2,
+      "title": "Kırbaçla dövülen adamın hiç bağırmadığımnı görenler",
+      "guessed": true
+    },
+    {
+      "line": 1403,
+      "level": 1,
+      "title": "52- EL-HAK",
+      "guessed": true
+    },
+    {
+      "line": 1430,
+      "level": 1,
+      "title": "53- EL-VEKİL",
+      "guessed": true
+    },
+    {
+      "line": 1471,
+      "level": 1,
+      "title": "54- EL-KAVİ",
+      "guessed": true
+    },
+    {
+      "line": 1484,
+      "level": 2,
+      "title": "Allah'adır tevekkülümüz, itimadımız.”",
+      "guessed": true
+    },
+    {
+      "line": 1490,
+      "level": 1,
+      "title": "55- EL-METİN",
+      "guessed": true
+    },
+    {
+      "line": 1507,
+      "level": 1,
+      "title": "56- EL-VELİ",
+      "guessed": true
+    },
+    {
+      "line": 1536,
+      "level": 1,
+      "title": "57- EL-HAMİD",
+      "guessed": true
+    },
+    {
+      "line": 1565,
+      "level": 1,
+      "title": "58- EL-MUHSİ",
+      "guessed": true
+    },
+    {
+      "line": 1576,
+      "level": 1,
+      "title": "59- EL-MÜBDİ, 60- EL-MUİD",
+      "guessed": true
+    },
+    {
+      "line": 1593,
+      "level": 1,
+      "title": "61- EL-MUHYİ, 62- EL-MÜMİT",
+      "guessed": true
+    },
+    {
+      "line": 1607,
+      "level": 1,
+      "title": "63- EL-HAY",
+      "guessed": true
+    },
+    {
+      "line": 1620,
+      "level": 1,
+      "title": "64- EL-KAYYUM",
+      "guessed": true
+    },
+    {
+      "line": 1635,
+      "level": 1,
+      "title": "65- EL-VACİD",
+      "guessed": true
+    },
+    {
+      "line": 1650,
+      "level": 1,
+      "title": "66- EL-MACİD",
+      "guessed": true
+    },
+    {
+      "line": 1663,
+      "level": 1,
+      "title": "67- EL-VAHİD",
+      "guessed": true
+    },
+    {
+      "line": 1676,
+      "level": 1,
+      "title": "68- ES-SAMED",
+      "guessed": true
+    },
+    {
+      "line": 1689,
+      "level": 1,
+      "title": "69- EL-KADİR",
+      "guessed": true
+    },
+    {
+      "line": 1706,
+      "level": 1,
+      "title": "70- EL-MUKTEDİR",
+      "guessed": true
+    },
+    {
+      "line": 1721,
+      "level": 1,
+      "title": "71-EL-MUKADDİM, 72- EL-MÜAHHİR",
+      "guessed": true
+    },
+    {
+      "line": 1732,
+      "level": 1,
+      "title": "73- EL-EVVEL, 74- EL-AHİR",
+      "guessed": true
+    },
+    {
+      "line": 1747,
+      "level": 1,
+      "title": "75- EZ-ZAHİR, 76- EL-BATIN",
+      "guessed": true
+    },
+    {
+      "line": 1778,
+      "level": 1,
+      "title": "77- EL-VALİ",
+      "guessed": true
+    },
+    {
+      "line": 1793,
+      "level": 1,
+      "title": "78- EL-MÜTEALİ",
+      "guessed": true
+    },
+    {
+      "line": 1810,
+      "level": 1,
+      "title": "79- EL-BERR",
+      "guessed": true
+    },
+    {
+      "line": 1829,
+      "level": 1,
+      "title": "80- ET-TEVVAB",
+      "guessed": true
+    },
+    {
+      "line": 1840,
+      "level": 2,
+      "title": "Vaktiyle gör hesabını defter kapanmadan.”",
+      "guessed": true
+    },
+    {
+      "line": 1854,
+      "level": 1,
+      "title": "81-EL-MÜNTAKIM",
+      "guessed": true
+    },
+    {
+      "line": 1875,
+      "level": 1,
+      "title": "82- EL-AFÜVV",
+      "guessed": true
+    },
+    {
+      "line": 1896,
+      "level": 1,
+      "title": "83- ER-RAUF",
+      "guessed": true
+    },
+    {
+      "line": 1919,
+      "level": 1,
+      "title": "84- MALİK-ÜL-MÜLK",
+      "guessed": true
+    },
+    {
+      "line": 1936,
+      "level": 1,
+      "title": "85- ZÜ-L-CELALİ VE-L-İKRAM",
+      "guessed": true
+    },
+    {
+      "line": 1949,
+      "level": 2,
+      "title": "Veli kitabeleri “küllü men aleyha fan”",
+      "guessed": true
+    },
+    {
+      "line": 1955,
+      "level": 1,
+      "title": "86- EL-MUKSİT",
+      "guessed": true
+    },
+    {
+      "line": 1974,
+      "level": 1,
+      "title": "87- EL-CAMİ",
+      "guessed": true
+    },
+    {
+      "line": 1989,
+      "level": 1,
+      "title": "88- EL-ĞANİYY, 89- EL-MUĞNİ",
+      "guessed": true
+    },
+    {
+      "line": 2018,
+      "level": 1,
+      "title": "90- EL-MANİ",
+      "guessed": true
+    },
+    {
+      "line": 2033,
+      "level": 1,
+      "title": "91- ED-DARR, 92- EN-NAFİ",
+      "guessed": true
+    },
+    {
+      "line": 2056,
+      "level": 1,
+      "title": "93- EN-NUR",
+      "guessed": true
+    },
+    {
+      "line": 2081,
+      "level": 1,
+      "title": "94- EL-HADİ",
+      "guessed": true
+    },
+    {
+      "line": 2098,
+      "level": 1,
+      "title": "95- EL-BEDİ",
+      "guessed": true
+    },
+    {
+      "line": 2119,
+      "level": 1,
+      "title": "96- EL-BAKİ",
+      "guessed": true
+    },
+    {
+      "line": 2148,
+      "level": 1,
+      "title": "97- EL-VARİS",
+      "guessed": true
+    },
+    {
+      "line": 2164,
+      "level": 1,
+      "title": "98- ER-RAŞİD",
+      "guessed": true
+    },
+    {
+      "line": 2181,
+      "level": 1,
+      "title": "99- ES-SABUR",
+      "guessed": true
+    },
+    {
+      "line": 2200,
+      "level": 2,
+      "title": "Ki koruk sabr ile olur helva.” der.[312]",
+      "guessed": true
+    },
+    {
+      "line": 2204,
+      "level": 2,
+      "title": "Sonuç",
+      "guessed": true
+    },
+    {
+      "line": 2361,
+      "level": 2,
+      "title": "El-Esma-ül Hüsna'nın Özet Manaları",
+      "guessed": true
+    },
+    {
+      "line": 194,
+      "level": 1,
+      "title": "Önsöz"
+    },
+    {
+      "line": 414,
+      "level": 2,
+      "title": "1- ALLAH"
+    },
+    {
+      "line": 461,
+      "level": 1,
+      "title": "2- ER-RAHMAN, 3- ER-RAHİM"
+    }
+  ],
+  "marks": [],
+  "updated": "2026-07-31T23:49:00.175Z"
+}
