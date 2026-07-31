@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes">
+<title>Kütüphane</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="deco-strip"></div>
+<div class="topbar">
+  <div class="title">📚 Kütüphane</div>
+  <button class="icon-btn" id="btnSettings2">⚙️</button>
+</div>
+
+<div class="theme-picker">
+  <div class="theme-dot tg" data-theme="gunduz" title="Gündüz"></div>
+  <div class="theme-dot tk" data-theme="kagit" title="Kağıt"></div>
+  <div class="theme-dot tn" data-theme="gece" title="Gece"></div>
+  <div class="theme-dot ty" data-theme="yumusak" title="Yumuşak Koyu"></div>
+</div>
+
+<div class="cat-tabs" id="catTabs"></div>
+<div class="book-list" id="bookList"></div>
+
+<script src="app.js"></script>
+<script>
+initTheme(); wireThemePicker();
+
+/*
+  ============================================================
+  BURASI SENİN DÜZENLEYECEĞİN TEK YER.
+  Her kategori bir sekme, her kategori altında kitaplar var.
+
+  "src" alanı için İKİ seçenek var:
+
+  1) GÖRELİ YOL (ÖNERİLEN) — kitabı bu site ile AYNI GitHub deposuna
+     bir klasöre (örn. "kitaplar/") koyarsan, sadece dosya yolunu yaz:
+       src: "kitaplar/kuran/kissalar.txt"
+     Bu şekilde raw link uğraşı yok, CORS sorunu olmaz, "GitHub'a Kaydet"
+     de otomatik çalışır (Ayarlar'a kullanıcı adı + depo adını bir kez girersin).
+
+  2) BAŞKA BİR DEPODAKİ DOSYA — o zaman GitHub'ın "raw" linkini kullan
+     (dosyayı GitHub'da açıp "Raw" butonuna basınca çıkan link, sonu .txt
+     olan, "raw.githubusercontent.com" ile başlayan link):
+       src: "https://raw.githubusercontent.com/kullanici/repo/main/kissalar.txt"
+     ❗ Dosyanın normal GitHub sayfası (github.com/.../blob/...) İŞE YARAMAZ,
+        mutlaka "raw.githubusercontent.com" olmalı.
+
+  Test etmek için "demo" yazarsan örnek kitap açılır (gerçek dosya gerekmez).
+  ============================================================
+*/
+const KUTUPHANE = {
+  "Kur'an": [
+    { title: "Kur'an Kıssalarına Giriş (test)", src: "demo" }
+    // { title: "Gerçek Kitabım", src: "kitaplar/kuran/kitap-adi.txt" },
+  ],
+  "Hadis": [
+    // { title: "Kitap adı", src: "kitaplar/hadis/kitap-adi.txt" },
+  ],
+  "Akaid": [
+    // { title: "Kitap adı", src: "kitaplar/akaid/kitap-adi.txt" },
+  ],
+  "Fıkıh": [
+    // { title: "Kitap adı", src: "kitaplar/fikih/kitap-adi.txt" },
+  ]
+};
+
+const catTabs = document.getElementById('catTabs');
+const bookList = document.getElementById('bookList');
+const categories = Object.keys(KUTUPHANE);
+
+function renderCategory(cat) {
+  bookList.innerHTML = '';
+  KUTUPHANE[cat].forEach(book => {
+    const a = document.createElement('a');
+    a.className = 'book-link';
+    a.href = `book.html?src=${encodeURIComponent(book.src)}&title=${encodeURIComponent(book.title)}`;
+    a.textContent = book.title;
+    bookList.appendChild(a);
+  });
+}
+
+categories.forEach((cat, i) => {
+  const btn = document.createElement('div');
+  btn.className = 'cat-tab' + (i === 0 ? ' active' : '');
+  btn.textContent = cat;
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderCategory(cat);
+  });
+  catTabs.appendChild(btn);
+});
+renderCategory(categories[0]);
+</script>
+</body>
+</html>
