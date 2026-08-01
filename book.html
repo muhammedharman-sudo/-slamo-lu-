@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes">
+<title>Kitap — Kütüphane</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="deco-strip"></div>
+<div class="topbar">
+  <button class="icon-btn" id="btnBack" title="İçindekilere dön">◄ İçindekiler</button>
+  <div class="title" id="bookTitle">Kitap</div>
+  <button class="icon-btn" id="btnEdit">✏️ Başlıkları Düzenle</button>
+  <button class="icon-btn" id="btnMark">🖊️ Vurgula</button>
+  <button class="icon-btn" id="btnCloudSave" title="Değişiklikleri GitHub'a kaydet">☁️ Kaydet</button>
+  <button class="icon-btn" id="btnSettings">⚙️</button>
+</div>
+
+<div class="theme-picker">
+  <div class="theme-dot tg" data-theme="gunduz" title="Gündüz"></div>
+  <div class="theme-dot tk" data-theme="kagit" title="Kağıt"></div>
+  <div class="theme-dot tn" data-theme="gece" title="Gece"></div>
+  <div class="theme-dot ty" data-theme="yumusak" title="Yumuşak Koyu"></div>
+</div>
+
+<!-- İÇİNDEKİLER GÖRÜNÜMÜ -->
+<div class="toc-wrap" id="tocView">
+  <p class="toc-note" id="tocStatus">Kitap yükleniyor…</p>
+  <ul class="toc-list" id="tocList"></ul>
+</div>
+
+<!-- OKUMA MODU GÖRÜNÜMÜ -->
+<div class="reader-wrap" id="readerView">
+  <p class="toc-note" id="markHint" style="display:none; padding:.5rem .9rem 0;">🖊️ Vurgulama modu açık: bir kelimeyi/cümleyi parmağınla seç, çıkan menüden Kalın / Altı Çizili / Vurgu seç.</p>
+  <div class="reader-inner">
+    <h2 class="reader-heading" id="readerHeading"></h2>
+    <div class="reader-text" id="readerText"></div>
+  </div>
+</div>
+
+<!-- Seçim üzerinde çıkan vurgu araç çubuğu -->
+<div class="mark-toolbar" id="markToolbar">
+  <button data-type="bold"><b>K</b></button>
+  <button data-type="underline"><u>A</u></button>
+  <button data-type="highlight">Vurgu</button>
+  <button data-type="clear">Temizle</button>
+</div>
+
+<!-- Dipnot popup -->
+<div class="fn-popup" id="fnPopup">
+  <span class="fn-close" id="fnClose">Kapat ✕</span>
+  <div id="fnContent"></div>
+</div>
+
+<!-- Ayarlar modali (GitHub) -->
+<div class="modal-back" id="settingsModal">
+  <div class="modal">
+    <h3>GitHub Ayarları</h3>
+    <p class="hint">İndeksi kalıcı olarak GitHub deponda saklamak için bilgileri gir. Bu bilgiler yalnızca senin tarayıcında saklanır, koda yazılmaz.</p>
+    <label>GitHub Kullanıcı Adı</label>
+    <input type="text" id="ghOwner" placeholder="örn: muhammedharman-sudo">
+    <label>Depo (repo) Adı</label>
+    <input type="text" id="ghRepo" placeholder="örn: kutuphane">
+    <label>Dal (branch) — boş bırakırsan "main"</label>
+    <input type="text" id="ghBranch" placeholder="main">
+    <label>GitHub Token</label>
+    <input type="password" id="ghToken" placeholder="ghp_...">
+    <p class="hint">Token'ı GitHub'da: Settings → Developer settings → Personal access tokens → Fine-grained/Classic, "repo" (contents) yazma izniyle oluşturursun.</p>
+    <div class="row">
+      <button id="ghCancel">Vazgeç</button>
+      <button class="primary" id="ghSave">Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+<script>
+/* ============ SAYFA DURUMU ============ */
+const params = new URLSearchParams(location.search);
+const SRC = params.get('src') || 'demo';
+const TITLE = params.get('title') || 'Örnek Kitap';
+document.getElementById('bookTitle').textContent = TITLE;
+
+const SAMPLE_TEXT = `İçindekiler
+
+Kıssaların Amacı
+İbret Yönü
+Kur'an Öğretisi
+> Tevhid Boyutu
+> Ahlak Boyutu
+
+Sonuç
+
+Kıssaların Amacı
+
+Kur'an kıssalarının temel amacı öğüt vermek ve doğru yolu göstermektir. Nitekim âlimler bu konuda geniş açıklamalar yapmıştır.[1]
+
+İbret Yönü
+
+Her kıssada insanı düşünmeye sevk eden bir yön bulunur. Geçmiş milletlerin başına gelenler, bugünün insanına da bir uyarı niteliğindedir.[3]
+
+Kur'an Öğretisi
+
+Kur'an'ın temel öğretisi tevhid, ibadet ve ahlak üzerine kuruludur. Bu üç eksen, kitabın bütününde iç içe işlenir.
+
+Tevhid Boyutu
+
+Tevhid, Allah'ın birliğine inanmanın ve O'na hiçbir şeyi ortak koşmamanın esasıdır.[5]
+
+Ahlak Boyutu
+
+Kur'an ahlakı, bireysel ve toplumsal hayatın her alanına dair ilkeler sunar.
+
+Dipnotlar
+
+[1] Bu konuda klasik ve çağdaş tefsirlerde geniş bilgi bulunmaktadır.
+[3] Bkz. İlgili tefsir kaynakları, kıssalar bölümü.
+[5] Tevhid, ibadet ve ahlak üçlüsü birçok âlim tarafından Kur'an'ın ana ekseni olarak kabul edilir.`;
+
+let RAW_TEXT = '';
+let BODY_LINES = [];
+let FOOTNOTES = {};
+let HEADINGS = [];       // {line, level, title, guessed?}
+let HEADINGS_SOURCE = ''; // 'github-index' | 'markdown' | 'local' | 'guess'
+let MARKS = [];           // {line, start, end, type: 'bold'|'underline'|'highlight'}
+let EDIT_MODE = false;
+let MARK_MODE = false;
+let CURRENT_HEADING_LINE = null;
+
+/* ============ YÜKLEME ============ */
+async function loadBook() {
+  initTheme(); wireThemePicker();
+  const statusEl = document.getElementById('tocStatus');
+  try {
+    RAW_TEXT = SRC === 'demo' ? SAMPLE_TEXT : await fetchText(SRC);
+  } catch (e) {
+    statusEl.textContent = 'Dosya yüklenemedi: ' + e.message;
+    return;
+  }
+
+  const allLines = splitLines(RAW_TEXT);
+  const extracted = extractFootnotes(allLines);
+  FOOTNOTES = extracted.footnotes;
+  BODY_LINES = extracted.bodyLines;
+
+  // Öncelik sırası: 1) "İçindekiler...Sonuç" kesin eşleştirmesi  2) GitHub'a kaydedilmiş indeks
+  //                 3) # işaretleri  4) yerel taslak  5) tahmini
+  const tocBlock = extractTocBlock(BODY_LINES);
+  const ghData = SRC !== 'demo' ? await fetchExistingIndex(SRC) : null;
+  const localData = await idbGetBookData(SRC);
+  const md = detectMarkdownHeadings(BODY_LINES);
+
+  if (tocBlock) {
+    HEADINGS = matchTocToBody(tocBlock.entries, BODY_LINES, tocBlock.contentStart);
+    HEADINGS_SOURCE = 'toc-marker';
+  } else if (ghData && ghData.headings && ghData.headings.length) {
+    HEADINGS = ghData.headings; HEADINGS_SOURCE = 'github-index';
+  } else if (md.length) {
+    HEADINGS = md; HEADINGS_SOURCE = 'markdown';
+  } else if (localData && localData.headings && localData.headings.length) {
+    HEADINGS = localData.headings; HEADINGS_SOURCE = 'local';
+  } else {
+    HEADINGS = heuristicHeadings(BODY_LINES); HEADINGS_SOURCE = 'guess';
+  }
+
+  // Vurgular: GitHub'daki kayıt varsa o, yoksa bu cihazdaki taslak
+  MARKS = (ghData && ghData.marks && ghData.marks.length) ? ghData.marks
+        : (localData && localData.marks ? localData.marks : []);
+
+  renderStatus();
+  renderTOC();
+}
+
+function renderStatus() {
+  const el = document.getElementById('tocStatus');
+  const unmatched = HEADINGS.filter(h => h.unmatched).length;
+  const msgs = {
+    'toc-marker': unmatched
+      ? `📌 İçindekiler, kitaptaki "İçindekiler...Sonuç" listesinden okundu. ⚠️ ${unmatched} başlık metin içinde bulunamadı (yazımı İçindekiler'dekiyle birebir aynı olmalı) — bunlara tıklarsan uyarı çıkar.`
+      : '📌 İçindekiler, kitaptaki "İçindekiler...Sonuç" listesinden okundu ve tüm başlıklar metinle eşleşti. ✅',
+    'github-index': '📌 İçindekiler bu kitabın kayıtlı indeksinden geldi.',
+    'markdown': '📌 İçindekiler metindeki başlık işaretlerinden otomatik çıkarıldı.',
+    'local': '📌 İçindekiler bu cihazdaki taslak işaretlemelerden geliyor. GitHub\'a henüz kaydedilmedi.',
+    'guess': '🔎 İçindekiler tahmini oluşturuldu, hatalı olabilir. En sağlamı: txt\'nin başına "İçindekiler" yaz, altına başlıkları alt alta yaz, listenin bittiği yere de "Sonuç" yaz — kesin çalışır. İstersen "✏️ Başlıkları Düzenle" ile elle de işaretleyebilirsin.'
+  };
+  el.textContent = msgs[HEADINGS_SOURCE] || '';
+}
+
+/* ============ İÇİNDEKİLER RENDER ============ */
+function renderTOC() {
+  const list = document.getElementById('tocList');
+  list.innerHTML = '';
+  if (!HEADINGS.length) {
+    list.innerHTML = '<li class="toc-note">Henüz bir başlık işaretlenmedi. "✏️ Düzenle" ile başlıkları işaretleyebilirsin.</li>';
+    return;
+  }
+  const tree = buildTree(HEADINGS);
+  list.appendChild(renderNodes(tree));
+}
+
+function renderNodes(nodes) {
+  const ul = document.createElement('ul');
+  ul.className = 'toc-list';
+  nodes.forEach(n => {
+    const li = document.createElement('li');
+    li.className = 'toc-item lvl-' + n.level;
+    const row = document.createElement('div');
+    row.className = 'toc-row';
+    const caret = document.createElement('span');
+    caret.className = 'caret';
+    caret.textContent = n.children.length ? '▶' : '';
+    row.appendChild(caret);
+    const label = document.createElement('span');
+    label.className = 'label';
+    label.textContent = n.title;
+    row.appendChild(label);
+    if (n.guessed) {
+      const badge = document.createElement('span');
+      badge.className = 'guessed-badge';
+      badge.textContent = 'tahmini';
+      row.appendChild(badge);
+    }
+    if (n.unmatched) {
+      const badge = document.createElement('span');
+      badge.className = 'guessed-badge';
+      badge.style.background = '#c0392b'; badge.style.color = '#fff';
+      badge.textContent = 'metinde yok';
+      row.appendChild(badge);
+    }
+    li.appendChild(row);
+
+    let childUl = null;
+    if (n.children.length) {
+      childUl = renderNodes(n.children);
+      childUl.classList.add('toc-children');
+      li.appendChild(childUl);
+
+      // Alt başlığı olanlarda: satıra dokunmak sadece açar/kapar.
+      // Okumak isteyenler için ayrı küçük bir "oku" ikonu.
+      const openBtn = document.createElement('span');
+      openBtn.className = 'toc-open-btn';
+      openBtn.textContent = '📖';
+      openBtn.title = 'Bu başlığın metnini oku';
+      openBtn.addEventListener('click', (e) => { e.stopPropagation(); openReader(n.line); });
+      row.appendChild(openBtn);
+
+      row.addEventListener('click', () => {
+        const open = childUl.classList.toggle('open');
+        caret.classList.toggle('open', open);
+      });
+    } else {
+      // Alt başlığı olmayan (yaprak) madde: doğrudan okumaya götürür, ok yerine kitap ikonu göster.
+      caret.textContent = '📖';
+      row.addEventListener('click', () => openReader(n.line));
+    }
+    ul.appendChild(li);
+  });
+  return ul;
+}
+
+/* ============ OKUMA MODU ============ */
+function openReader(headingLine, skipHistory) {
+  const heading = HEADINGS.find(h => h.line === headingLine);
+  if (!heading) return;
+  if (heading.unmatched) {
+    alert(`"${heading.title}" başlığı metin içinde bulunamadı.\n\nİçindekiler'deki yazım ile metindeki başlığın harfi harfine (büyük/küçük harf hariç) aynı olması gerekiyor. Metindeki başlığı kontrol edip düzelt.`);
+    return;
+  }
+  const sorted = HEADINGS.filter(h => !h.unmatched).slice().sort((a, b) => a.line - b.line);
+  const idx = sorted.findIndex(h => h.line === headingLine);
+  if (idx === -1) return;
+  const [start, end] = sectionRange(sorted, idx, BODY_LINES.length);
+  CURRENT_HEADING_LINE = headingLine;
+
+  document.getElementById('readerHeading').textContent = heading.title;
+  const paras = paragraphsWithMarks(BODY_LINES.slice(start, end), start, MARKS);
+  document.getElementById('readerText').innerHTML =
+    paras.map(p => `<p>${linkifyFootnotes(p)}</p>`).join('') || '<p><em>(Bu başlığın altında ayrı bir metin bulunamadı — muhtemelen alt satır da yanlışlıkla başlık sanıldı. "✏️ Başlıkları Düzenle" ile düzeltebilirsin.)</em></p>';
+
+  document.getElementById('tocView').style.display = 'none';
+  document.getElementById('readerView').classList.add('open');
+  if (!skipHistory) { history.pushState({ reader: true }, '', '#oku'); window.scrollTo(0, 0); }
+  wireFootnoteRefs();
+}
+function closeReader() {
+  document.getElementById('readerView').classList.remove('open');
+  document.getElementById('tocView').style.display = '';
+}
+window.addEventListener('popstate', closeReader);
+document.getElementById('btnBack').addEventListener('click', () => {
+  if (document.getElementById('readerView').classList.contains('open')) history.back();
+});
+
+/* ============ DİPNOTLAR ============ */
+function wireFootnoteRefs() {
+  document.querySelectorAll('.fn-ref').forEach(el => {
+    el.addEventListener('click', () => {
+      const n = el.dataset.fn;
+      const text = FOOTNOTES[n] || 'Bu kitapta bu numaraya karşılık gelen bir dipnot bulunamadı. Dipnotların doğru görünmesi için kitabın en sonunda "Dipnotlar" yazan bir satır ve altında "1. ...", "2. ..." şeklinde numaralı liste olmalı.';
+      document.getElementById('fnContent').innerHTML = `<b>${n}.</b> ${escapeHtml(text)}`;
+      document.getElementById('fnPopup').classList.add('open');
+    });
+  });
+}
+document.getElementById('fnClose').addEventListener('click', () => {
+  document.getElementById('fnPopup').classList.remove('open');
+});
+
+/* ============ VURGULAMA MODU ============ */
+document.getElementById('btnMark').addEventListener('click', () => {
+  MARK_MODE = !MARK_MODE;
+  document.getElementById('btnMark').classList.toggle('active', MARK_MODE);
+  document.getElementById('markHint').style.display = MARK_MODE ? 'block' : 'none';
+  if (!MARK_MODE) hideMarkToolbar();
+});
+
+function hideMarkToolbar() { document.getElementById('markToolbar').classList.remove('open'); }
+
+document.getElementById('readerText').addEventListener('mouseup', maybeShowMarkToolbar);
+document.getElementById('readerText').addEventListener('touchend', () => setTimeout(maybeShowMarkToolbar, 30));
+
+function maybeShowMarkToolbar() {
+  if (!MARK_MODE) return;
+  const sel = window.getSelection();
+  if (!sel || sel.isCollapsed || sel.rangeCount === 0) { hideMarkToolbar(); return; }
+  const range = sel.getRangeAt(0);
+  const rect = range.getBoundingClientRect();
+  if (!rect || (rect.width === 0 && rect.height === 0)) { hideMarkToolbar(); return; }
+  const toolbar = document.getElementById('markToolbar');
+  toolbar.classList.add('open');
+  toolbar.style.top = Math.max(8, rect.top - 46) + 'px';
+  toolbar.style.left = Math.max(8, Math.min(window.innerWidth - 220, rect.left)) + 'px';
+}
+
+document.querySelectorAll('#markToolbar button').forEach(btn => {
+  btn.addEventListener('click', () => applyMark(btn.dataset.type));
+});
+
+async function applyMark(type) {
+  const container = document.getElementById('readerText');
+  const ranges = getSelectionLineRanges(container);
+  if (!ranges.length) { hideMarkToolbar(); return; }
+
+  if (type === 'clear') {
+    ranges.forEach(r => {
+      MARKS = MARKS.filter(m => !(m.line === r.line && m.start < r.end && m.end > r.start));
+    });
+  } else {
+    ranges.forEach(r => MARKS.push({ line: r.line, start: r.start, end: r.end, type }));
+  }
+  await idbSaveBookData(SRC, { headings: HEADINGS, marks: MARKS });
+  window.getSelection().removeAllRanges();
+  hideMarkToolbar();
+  if (CURRENT_HEADING_LINE !== null) openReader(CURRENT_HEADING_LINE, true);
+}
+
+/* ============ DÜZENLEME MODU (BAŞLIKLAR) ============ */
+document.getElementById('btnEdit').addEventListener('click', () => {
+  EDIT_MODE = !EDIT_MODE;
+  document.getElementById('btnEdit').classList.toggle('active', EDIT_MODE);
+  if (EDIT_MODE) renderEditView(); else renderTOC(), (document.getElementById('tocView').style.display = '');
+});
+
+function renderEditView() {
+  document.getElementById('readerView').classList.remove('open');
+  document.getElementById('tocView').style.display = '';
+  const list = document.getElementById('tocList');
+  list.innerHTML = '';
+  const wrap = document.createElement('div');
+  const markedMap = {}; HEADINGS.forEach(h => markedMap[h.line] = h);
+
+  BODY_LINES.forEach((raw, i) => {
+    const t = raw.trim();
+    if (t === '') return;
+    const div = document.createElement('div');
+    const h = markedMap[i];
+    div.className = 'edit-line' + (h ? ' marked-' + h.level : '');
+    div.textContent = (h ? levelIcon(h.level) + ' ' : '') + t;
+    div.addEventListener('click', (e) => showEditMenu(e, i, t));
+    wrap.appendChild(div);
+  });
+  list.appendChild(wrap);
+  document.getElementById('tocStatus').textContent = '✏️ Düzenleme modu: bir satıra dokun, başlık seviyesini seç. Bitince tekrar "✏️ Düzenle" ile çık.';
+}
+function levelIcon(l) { return l === 1 ? '●' : l === 2 ? '○' : '·'; }
+
+function showEditMenu(evt, lineIdx, text) {
+  document.querySelectorAll('.edit-menu').forEach(m => m.remove());
+  const menu = document.createElement('div');
+  menu.className = 'edit-menu';
+  const opts = [
+    ['Ana Başlık', 1], ['Alt Başlık', 2], ['Alt-Alt', 3], ['Kaldır', 0]
+  ];
+  opts.forEach(([label, lvl]) => {
+    const btn = document.createElement('button');
+    btn.textContent = label;
+    btn.addEventListener('click', () => { markLine(lineIdx, text, lvl); menu.remove(); });
+    menu.appendChild(btn);
+  });
+  document.body.appendChild(menu);
+  const rect = evt.target.getBoundingClientRect();
+  menu.style.top = Math.min(window.innerHeight - 50, rect.bottom + 4) + 'px';
+  menu.style.left = Math.max(8, Math.min(window.innerWidth - 260, rect.left)) + 'px';
+  setTimeout(() => {
+    document.addEventListener('click', function h(ev) {
+      if (!menu.contains(ev.target)) { menu.remove(); document.removeEventListener('click', h); }
+    });
+  }, 0);
+}
+
+async function markLine(lineIdx, text, level) {
+  HEADINGS = HEADINGS.filter(h => h.line !== lineIdx);
+  if (level > 0) HEADINGS.push({ line: lineIdx, level, title: text });
+  HEADINGS_SOURCE = 'local';
+  await idbSaveBookData(SRC, { headings: HEADINGS, marks: MARKS });
+  renderEditView();
+}
+
+/* ============ AYARLAR / GITHUB KAYDI ============ */
+document.getElementById('btnCloudSave').addEventListener('click', async () => {
+  const cfg = getGithubConfig();
+  if (!cfg.token || !cfg.owner || !cfg.repo) {
+    alert('Önce ⚙️ Ayarlar\'dan GitHub bilgilerini (kullanıcı adı, depo, token) bir kere gir.');
+    document.getElementById('settingsModal').classList.add('open');
+    return;
+  }
+  try {
+    await pushIndexToGithub(SRC, HEADINGS, MARKS);
+    HEADINGS_SOURCE = 'github-index'; renderStatus();
+    alert('Kaydedildi: başlıklar ve vurgular GitHub\'a yazıldı.');
+  } catch (e) {
+    alert('Kaydedilemedi: ' + e.message);
+  }
+});
+document.getElementById('btnSettings').addEventListener('click', () => {
+  const cfg = getGithubConfig();
+  document.getElementById('ghToken').value = cfg.token || '';
+  document.getElementById('ghOwner').value = cfg.owner || '';
+  document.getElementById('ghRepo').value = cfg.repo || '';
+  document.getElementById('ghBranch').value = cfg.branch || '';
+  document.getElementById('settingsModal').classList.add('open');
+});
+document.getElementById('ghCancel').addEventListener('click', () => {
+  document.getElementById('settingsModal').classList.remove('open');
+});
+document.getElementById('ghSave').addEventListener('click', async () => {
+  const token = document.getElementById('ghToken').value.trim();
+  const owner = document.getElementById('ghOwner').value.trim();
+  const repo = document.getElementById('ghRepo').value.trim();
+  const branch = document.getElementById('ghBranch').value.trim();
+  saveGithubConfig({ token, owner, repo, branch });
+  document.getElementById('settingsModal').classList.remove('open');
+  if (HEADINGS.length || MARKS.length) {
+    try {
+      await pushIndexToGithub(SRC, HEADINGS, MARKS);
+      HEADINGS_SOURCE = 'github-index'; renderStatus();
+      alert('İndeks ve vurgular GitHub\'a kaydedildi.');
+    } catch (e) {
+      alert('Kaydedilemedi: ' + e.message + '\n\n(Not: bu demo sayfada "src=demo" olduğu için gerçek GitHub kaydı yapılamaz — gerçek bir dosya linkiyle dene.)');
+    }
+  }
+});
+
+loadBook();
+</script>
+</body>
+</html>
